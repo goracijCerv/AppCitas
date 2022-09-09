@@ -5,7 +5,8 @@ public class AppUser
     //la forma de c# se puede resumir en esta linea
     public int Id { get; set; }
     public string UserName { get; set; }
-    
+    public byte[] PasswordHash { get; set; }
+    public byte[] PasswordSalt { get; set; }
 
     //ESta es la froma en  la que se realiza en c#
     /*private int myVar;

@@ -6,12 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Apcitas.WebService.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
-public class UserController : ControllerBase
+
+public class UsersController : BaseApiController
 {
     private readonly DataContext _context;
-    public UserController(DataContext context)
+    public UsersController(DataContext context)
     {
           _context = context;
     }
