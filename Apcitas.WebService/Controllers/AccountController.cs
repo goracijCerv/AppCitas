@@ -1,6 +1,8 @@
 ﻿using Apcitas.WebService.Data;
 using Apcitas.WebService.DTOs;
 using Apcitas.WebService.Entities;
+using Apcitas.WebService.Interfaces;
+using Apcitas.WebService.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
@@ -11,14 +13,17 @@ namespace Apcitas.WebService.Controllers;
 public class AccountController : BaseApiController
 {
     private readonly DataContext _context;
+    private readonly iTokenService _iTokenService;
 
-    public AccountController(DataContext context)
+
+    public AccountController(DataContext context, iTokenService iTokenService)
     {
         _context = context;
+        _iTokenService = iTokenService;
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<AppUser>> Register(RegisterDto registerDto)
+    public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
         if (await UserExists(registerDto.Username))
             return BadRequest("Username is already taken!");
@@ -31,11 +36,15 @@ public class AccountController : BaseApiController
         };
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
-        return user;
+        return new UserDto
+        {
+           UserName = user.UserName,
+           Token = _iTokenService.CreateToken(user)
+        };
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<AppUser>> Login(LoginDto loginDto)
+    public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
         var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
         if (user == null) return Unauthorized("Invalid username or password");
@@ -48,7 +57,11 @@ public class AccountController : BaseApiController
                 return Unauthorized("Invalid username or password");
         }
 
-        return user;
+        return new UserDto
+        {
+            UserName=user.UserName,
+            Token = _iTokenService.CreateToken(user)
+        };
     }
 
     #region Private Methods

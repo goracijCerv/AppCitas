@@ -1,8 +1,12 @@
 using Apcitas.WebService.Data;
+using Apcitas.WebService.Extensions;
 using Apcitas.WebService.Interfaces;
 using Apcitas.WebService.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 namespace Apcitas;
 
@@ -19,16 +23,11 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddScoped<iTokenService, TokenService>();
-        services.AddDbContext<DataContext>(options =>
-        {
-            options.UseSqlite(
-                _config.GetConnectionString("DefaultConnection")
-                );
-        });
+        
+        services.AddAplicationServices(_config);
         services.AddControllers();
         services.AddCors();
-
+        services.AddIdentityServices(_config);
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIv5", Version = "v1" });
@@ -49,6 +48,7 @@ public class Startup
 
         app.UseRouting();
         app.UseCors(p => p.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
