@@ -1,4 +1,6 @@
-﻿namespace Apcitas.WebService.Entities;
+﻿using Apcitas.WebService.Extensions;
+
+namespace Apcitas.WebService.Entities;
 
 public class AppUser
 {
@@ -7,6 +9,24 @@ public class AppUser
     public string UserName { get; set; }
     public byte[] PasswordHash { get; set; }
     public byte[] PasswordSalt { get; set; }
+    public DateTime DateOfBirth { get; set; }
+    public string KnowAs { get; set; }
+    public DateTime Created { get; set; } = DateTime.Now;
+    public DateTime LastActive { get; set; }= DateTime.Now;
+    public string Gender { get; set; }
+    public string Introduction { get; set; }
+    public string Lokingfor { get; set; }
+    public string Interests { get; set; }
+    public string City { get; set; }
+    public string Country { get; set; }
+    public ICollection<Photo> Photos { get; set; }
+
+    //metodos
+
+    public int GetAge()
+    {
+        return DateOfBirth.CalculeteAge();
+    }
 
     //ESta es la froma en  la que se realiza en c#
     /*private int myVar;
