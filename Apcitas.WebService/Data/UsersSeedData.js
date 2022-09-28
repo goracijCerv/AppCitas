@@ -13,8 +13,8 @@
 		"Country": "Syria",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/women/49.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/women/49.jpg",
+				"IsMain": true
 			}
 		]
 	},
@@ -32,8 +32,8 @@
 		"Country": "Austria",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/women/16.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/women/16.jpg",
+				"IsMain": true
 			}
 		]
 	},
@@ -51,8 +51,8 @@
 		"Country": "Japan",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/women/58.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/women/58.jpg",
+				"IsMain": true
 			}
 		]
 	},
@@ -70,8 +70,8 @@
 		"Country": "Turkmenistan",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/women/25.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/women/25.jpg",
+				"IsMain": true
 			}
 		]
 	},
@@ -89,8 +89,8 @@
 		"Country": "Cocos (Keeling Islands)",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/women/29.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/women/29.jpg",
+				"IsMain": true
 			}
 		]
 	},
@@ -108,8 +108,8 @@
 		"Country": "Sudan",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/men/81.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/men/81.jpg",
+				"IsMain": true
 			}
 		]
 	},
@@ -127,8 +127,8 @@
 		"Country": "Antigua and Barbuda",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/men/50.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/men/50.jpg",
+				"IsMain": true
 			}
 		]
 	},
@@ -146,8 +146,8 @@
 		"Country": "Angola",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/men/90.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/men/90.jpg",
+				"IsMain": true
 			}
 		]
 	},
@@ -165,8 +165,8 @@
 		"Country": "Mozambique",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/men/25.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/men/25.jpg",
+				"IsMain": true
 			}
 		]
 	},
@@ -184,8 +184,8 @@
 		"Country": "Oman",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/men/23.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/men/23.jpg",
+				"IsMain": true
 			}
 		]
 	}

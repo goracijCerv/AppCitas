@@ -1,4 +1,5 @@
 ﻿using Apcitas.WebService.Data;
+using Apcitas.WebService.Helpers;
 using Apcitas.WebService.Interfaces;
 using Apcitas.WebService.Services;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ public static class AplicationServiceExtension
     {
         services.AddScoped<iTokenService, TokenService>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
         services.AddDbContext<DataContext>(options =>
         {
             options.UseSqlite(

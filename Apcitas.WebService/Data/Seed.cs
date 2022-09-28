@@ -15,8 +15,7 @@ public class Seed
         if (await context.Users.AnyAsync()) return;
 
         var usersDat = await System.IO.File.ReadAllTextAsync("Data/UsersSeedData.js");
-        //var users = JsonSerializer.Deserialize<List<AppUser>>(usersDat);
-        var users = JsonConvert.DeserializeObject<List<AppUser>> (usersDat);
+        var users = System.Text.Json.JsonSerializer.Deserialize<List<AppUser>>(usersDat);
         foreach(var user in users)
         {
             using var hamc = new HMACSHA512();

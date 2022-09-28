@@ -1,5 +1,6 @@
 ﻿using Apcitas.WebService.Data;
 using Apcitas.WebService.Entities;
+using Apcitas.WebService.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,23 +11,23 @@ namespace Apcitas.WebService.Controllers;
 [Authorize]
 public class UsersController : BaseApiController
 {
-    private readonly DataContext _context;
-    public UsersController(DataContext context)
+    private readonly IUserRepository _userRepository;
+    public UsersController(IUserRepository userRepository)
     {
-        _context = context;
+        _userRepository = userRepository;
     }
     //Get api/users
     [HttpGet]
     
     public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
     {
-         return await _context.Users.ToListAsync();
+         return Ok(await _userRepository.GetUsersAsync());
     }
     //Get api/usuarios/id 
     [HttpGet("{id}")]
-    
-    public async Task<ActionResult<AppUser>> GetUsersById(int id)
+   
+    public async Task<ActionResult<AppUser>> GetUserByUserName(string userName)
     {
-        return await _context.Users.FindAsync(id); 
+        return await _userRepository.GetUserByUsernameAsync(userName);
     }
 }

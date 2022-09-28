@@ -1,14 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "V0aNVWpVoYVm38WD+cGa80IJq5i/CXUccP+Vi6P6HjnVFSAbPYnvx4lwqySymp6uWO/GJIiw5oUwuVr85E9D1Q==",
+  "dgSpecHash": "uvg0GLe2R33nH6Zmcfqt+mlk9Tnbhu5grza128n+yzEzzhMG4jm3vdgtHIh2JMrxngb7S9a7QgNfhqEjiFe+fA==",
   "success": true,
   "projectFilePath": "C:\\Users\\pepee.DESKTOP-K0S14SU\\source\\AppCitas\\Apcitas.WebService\\Apcitas.WebService.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\pepee.DESKTOP-K0S14SU\\.nuget\\packages\\automapper\\11.0.0\\automapper.11.0.0.nupkg.sha512",
+    "C:\\Users\\pepee.DESKTOP-K0S14SU\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
     "C:\\Users\\pepee.DESKTOP-K0S14SU\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\pepee.DESKTOP-K0S14SU\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.9\\microsoft.aspnetcore.authentication.jwtbearer.6.0.9.nupkg.sha512",
     "C:\\Users\\pepee.DESKTOP-K0S14SU\\.nuget\\packages\\microsoft.aspnetcore.authorization\\6.0.9\\microsoft.aspnetcore.authorization.6.0.9.nupkg.sha512",
     "C:\\Users\\pepee.DESKTOP-K0S14SU\\.nuget\\packages\\microsoft.aspnetcore.metadata\\6.0.9\\microsoft.aspnetcore.metadata.6.0.9.nupkg.sha512",
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\pepee.DESKTOP-K0S14SU\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\pepee.DESKTOP-K0S14SU\\.nuget\\packages\\microsoft.data.sqlite.core\\6.0.8\\microsoft.data.sqlite.core.6.0.8.nupkg.sha512",
     "C:\\Users\\pepee.DESKTOP-K0S14SU\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.8\\microsoft.entityframeworkcore.6.0.8.nupkg.sha512",
     "C:\\Users\\pepee.DESKTOP-K0S14SU\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.8\\microsoft.entityframeworkcore.abstractions.6.0.8.nupkg.sha512",
