@@ -23,10 +23,10 @@ public class AppUser
 
     //metodos
 
-    public int GetAge()
-    {
-        return DateOfBirth.CalculeteAge();
-    }
+    //public int GetAge()
+    //{
+      //  return DateOfBirth.CalculeteAge();
+    //}
 
     //ESta es la froma en  la que se realiza en c#
     /*private int myVar;
