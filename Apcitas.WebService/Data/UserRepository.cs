@@ -1,5 +1,8 @@
-﻿using Apcitas.WebService.Entities;
+﻿using Apcitas.WebService.DTOs;
+using Apcitas.WebService.Entities;
 using Apcitas.WebService.Interfaces;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Apcitas.WebService.Data;
@@ -7,9 +10,24 @@ namespace Apcitas.WebService.Data;
 public class UserRepository : IUserRepository
 {
     private readonly DataContext _context;
-    public UserRepository(DataContext context)
+    private readonly IMapper _mapper;
+    public UserRepository(DataContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
+    }
+
+    public async Task<MemberDto> GetMemberAsync(string usaerName)
+    {
+        return await _context.Users.Where
+            (x=> x.UserName == usaerName )
+            .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+            .SingleOrDefaultAsync();
+    }
+
+    public async Task<IEnumerable<MemberDto>> GetMembersAsync()
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<AppUser> GetUserByIdAsync(int id)

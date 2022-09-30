@@ -1,4 +1,5 @@
-﻿using Apcitas.WebService.Entities;
+﻿using Apcitas.WebService.DTOs;
+using Apcitas.WebService.Entities;
 
 namespace Apcitas.WebService.Interfaces;
 
@@ -9,4 +10,7 @@ public interface IUserRepository
     Task<IEnumerable<AppUser>> GetUsersAsync();
     Task<bool> SaveAllAsync();
     void Update(AppUser user);
+
+    Task<MemberDto> GetMemberAsync(string userName);
+    Task<IEnumerable<MemberDto>> GetMembersAsync();
 }

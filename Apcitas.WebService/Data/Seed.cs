@@ -14,7 +14,7 @@ public class Seed
     {
         if (await context.Users.AnyAsync()) return;
 
-        var usersDat = await System.IO.File.ReadAllTextAsync("Data/UsersSeedData.js");
+        var usersDat = await System.IO.File.ReadAllTextAsync("Data/UsersSeedData.json");
         var users = System.Text.Json.JsonSerializer.Deserialize<List<AppUser>>(usersDat);
         foreach(var user in users)
         {

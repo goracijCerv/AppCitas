@@ -1,8 +1,7 @@
-﻿namespace Apcitas.WebService.DTOs
+﻿namespace Apcitas.WebService.DTOs;
+
+public class LoginDto
 {
-    public class LoginDto
-    {
-        public string  Username { get; set; }
-        public string  Password { get; set; }
-    }
+    public string  Username { get; set; }
+    public string  Password { get; set; }
 }
