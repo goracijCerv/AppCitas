@@ -10,6 +10,7 @@ public static class AplicationServiceExtension
 {
     public static IServiceCollection AddAplicationServices(this IServiceCollection services, IConfiguration config)
     {
+        services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
         services.AddScoped<iTokenService, TokenService>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
