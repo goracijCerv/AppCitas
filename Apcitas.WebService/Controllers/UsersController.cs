@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Apcitas.WebService.Controllers;
 [Authorize]
@@ -34,5 +35,18 @@ public class UsersController : BaseApiController
     public async Task<ActionResult<MemberDto>> GetUserByUserName(string userName)
     {
         return await _userRepository.GetMemberAsync(userName);
+    }
+
+    [HttpPut]
+    public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdate)
+    {
+        var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var user = await _userRepository.GetUserByUsernameAsync(username);
+        _mapper.Map(memberUpdate, user);
+
+        _userRepository.Update(user);
+        if (await _userRepository.SaveAllAsync()) return NoContent();
+        
+        return BadRequest("Fail to update the user");
     }
 }
