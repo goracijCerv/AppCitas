@@ -12,6 +12,7 @@ public static class AplicationServiceExtension
     {
         services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
         services.AddScoped<iTokenService, TokenService>();
+        services.AddScoped<IPhotoService, PhotoService>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
         services.AddDbContext<DataContext>(options =>

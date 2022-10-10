@@ -78,3 +78,4 @@ C:\Users\pepee.DESKTOP-K0S14SU\source\AppCitas\Apcitas.WebService\bin\Debug\net6
 C:\Users\pepee.DESKTOP-K0S14SU\source\AppCitas\Apcitas.WebService\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\pepee.DESKTOP-K0S14SU\source\AppCitas\Apcitas.WebService\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\pepee.DESKTOP-K0S14SU\source\AppCitas\Apcitas.WebService\bin\Debug\net6.0\Data\UsersSeedData.json
+C:\Users\pepee.DESKTOP-K0S14SU\source\AppCitas\Apcitas.WebService\bin\Debug\net6.0\CloudinaryDotNet.dll
