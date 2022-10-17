@@ -33,7 +33,7 @@ public class UsersController : BaseApiController
          return Ok(users);
     }
     //Get api/usuarios/id 
-    [HttpGet("{username}")]
+    [HttpGet("{username}", Name ="GetUser")]
    
     public async Task<ActionResult<MemberDto>> GetUserByUserName(string userName)
     {
@@ -70,8 +70,36 @@ public class UsersController : BaseApiController
         if (user.Photos.Count == 0) photo.IsMain = true;
 
         user.Photos.Add(photo);
-        if (await _userRepository.SaveAllAsync()) return _mapper.Map<PhotoDto>(photo);
-
+        if (await _userRepository.SaveAllAsync())
+        {
+            return CreatedAtRoute(
+                 "GetUser",
+                 new {username = user.UserName},
+                _mapper.Map<PhotoDto>(photo));
+        }
         return BadRequest("problem with adding a photo");
     }
+
+    [HttpPut("set-main-photo/{photoId}")]
+    public async Task<ActionResult> SetMainPhoto(int idphoto)
+    {
+        var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+        
+        var photo = user.Photos.FirstOrDefault(x => x.Id == idphoto);
+
+        if (photo == null) return NotFound("This photo not exist");
+        
+        if (photo.IsMain) return BadRequest("This is already you main photo");
+
+        var currentMainPhoto = user.Photos.FirstOrDefault(x => x.IsMain);
+
+        if (currentMainPhoto != null) currentMainPhoto.IsMain = false;
+
+        photo.IsMain = true;
+
+        if (await _userRepository.SaveAllAsync()) return NoContent();
+
+        return BadRequest("Faild to set main photo");
+    }
+
 }
