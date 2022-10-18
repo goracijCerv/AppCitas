@@ -38,18 +38,23 @@ public class AccountController : BaseApiController
         await _context.SaveChangesAsync();
         return new UserDto
         {
-           UserName = user.UserName,
-           Token = _iTokenService.CreateToken(user)
+            UserName = user.UserName,
+            Token = _iTokenService.CreateToken(user),
+            PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
         };
     }
 
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
-        var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
+        var user = await _context.Users
+            .Include(p => p.Photos)
+            .SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
+
         if (user == null) return Unauthorized("Invalid username or password");
 
         using var hac = new HMACSHA512(user.PasswordSalt);
+
         var computeHash = hac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
         for(int i=0; i<computeHash.Length; i++)
         {

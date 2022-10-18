@@ -35,9 +35,9 @@ public class UsersController : BaseApiController
     //Get api/usuarios/id 
     [HttpGet("{username}", Name ="GetUser")]
    
-    public async Task<ActionResult<MemberDto>> GetUserByUserName(string userName)
+    public async Task<ActionResult<MemberDto>> GetUserByUserName(string username)
     {
-        return await _userRepository.GetMemberAsync(userName);
+        return await _userRepository.GetMemberAsync(username);
     }
 
     [HttpPut]
@@ -81,11 +81,11 @@ public class UsersController : BaseApiController
     }
 
     [HttpPut("set-main-photo/{photoId}")]
-    public async Task<ActionResult> SetMainPhoto(int idphoto)
+    public async Task<ActionResult> SetMainPhoto(int photoId)
     {
         var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
         
-        var photo = user.Photos.FirstOrDefault(x => x.Id == idphoto);
+        var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
 
         if (photo == null) return NotFound("This photo not exist");
         
@@ -100,6 +100,31 @@ public class UsersController : BaseApiController
         if (await _userRepository.SaveAllAsync()) return NoContent();
 
         return BadRequest("Faild to set main photo");
+    }
+
+    [HttpDelete("delete-photo/{photoId}")]
+    public async Task<ActionResult> DeletePhoto(int photoId)
+    {
+        var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+
+        var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+
+        if (photo == null) return NotFound();
+
+        if (photo.IsMain) return BadRequest("You can´t delete your main photo");
+
+        if(photo.PublicId != null)
+        {
+            var result = await _photoService.DeletePhotoAsync(photo.PublicId);
+
+            if (result.Error != null) return BadRequest(result.Error.Message);
+        }
+
+        user.Photos.Remove(photo);
+
+        if (await _userRepository.SaveAllAsync()) return Ok();
+
+        return BadRequest("The Photo was not delated");
     }
 
 }
