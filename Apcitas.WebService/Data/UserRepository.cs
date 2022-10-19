@@ -1,5 +1,6 @@
 ﻿using Apcitas.WebService.DTOs;
 using Apcitas.WebService.Entities;
+using Apcitas.WebService.Helpers;
 using Apcitas.WebService.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -25,11 +26,14 @@ public class UserRepository : IUserRepository
             .SingleOrDefaultAsync();
     }
 
-    public async Task<IEnumerable<MemberDto>> GetMembersAsync()
+    public  async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
     {
-        return await _context.Users
+        var query = _context.Users
             .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-            .ToListAsync();
+            .AsNoTracking();
+        
+        return await PagedList<MemberDto>
+            .CreateAsync(query, userParams.PageNumber, userParams.PageSie);
     }
 
     public async Task<AppUser> GetUserByIdAsync(int id)
@@ -59,4 +63,5 @@ public class UserRepository : IUserRepository
         _context.Entry(user).State = EntityState.Modified;
     }
 
+   
 }

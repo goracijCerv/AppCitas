@@ -1,5 +1,6 @@
 ﻿using Apcitas.WebService.DTOs;
 using Apcitas.WebService.Entities;
+using Apcitas.WebService.Helpers;
 
 namespace Apcitas.WebService.Interfaces;
 
@@ -12,5 +13,5 @@ public interface IUserRepository
     void Update(AppUser user);
 
     Task<MemberDto> GetMemberAsync(string userName);
-    Task<IEnumerable<MemberDto>> GetMembersAsync();
+    Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams);
 }

@@ -3,6 +3,7 @@ using Apcitas.WebService.DTOs;
 using Apcitas.WebService.Entities;
 using Apcitas.WebService.Interfaces;
 using Apcitas.WebService.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
@@ -14,12 +15,14 @@ public class AccountController : BaseApiController
 {
     private readonly DataContext _context;
     private readonly iTokenService _iTokenService;
+    private readonly IMapper _mapper;
 
 
-    public AccountController(DataContext context, iTokenService iTokenService)
+    public AccountController(DataContext context, iTokenService iTokenService, IMapper mapper)
     {
         _context = context;
         _iTokenService = iTokenService;
+        _mapper = mapper;
     }
 
     [HttpPost("register")]
@@ -28,19 +31,19 @@ public class AccountController : BaseApiController
         if (await UserExists(registerDto.Username))
             return BadRequest("Username is already taken!");
         using var hmac = new HMACSHA512();
-        var user = new AppUser
-        {
-            UserName = registerDto.Username.ToLower(),
-            PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-            PasswordSalt = hmac.Key
-        };
+
+        var user = _mapper.Map<AppUser>(registerDto);
+        user.UserName = registerDto.Username.ToLower();
+        user.PasswordHash= hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
+        user.PasswordHash = hmac.Key;
+
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
         return new UserDto
         {
             UserName = user.UserName,
             Token = _iTokenService.CreateToken(user),
-            PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+            KnowAs = user.KnowAs
         };
     }
 
@@ -64,8 +67,10 @@ public class AccountController : BaseApiController
 
         return new UserDto
         {
-            UserName=user.UserName,
-            Token = _iTokenService.CreateToken(user)
+            UserName = user.UserName,
+            Token = _iTokenService.CreateToken(user),
+            PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+            KnowAs = user.KnowAs
         };
     }
 
