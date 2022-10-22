@@ -1,14 +1,11 @@
-﻿using Apcitas.WebService.Data;
-using Apcitas.WebService.DTOs;
+﻿using Apcitas.WebService.DTOs;
 using Apcitas.WebService.Entities;
 using Apcitas.WebService.Extensions;
+using Apcitas.WebService.Helpers;
 using Apcitas.WebService.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace Apcitas.WebService.Controllers;
 [Authorize]
@@ -26,9 +23,22 @@ public class UsersController : BaseApiController
     //Get api/users
     [HttpGet]
     
-    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
     {
-        var users = await _userRepository.GetMembersAsync();
+        var user =  await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+
+        userParams.CurrentUsername = user.UserName;
+
+        if (string.IsNullOrEmpty(userParams.Gender))
+            userParams.Gender = userParams.Gender == "male" ? "female" : "male";
+
+        var users = await _userRepository.GetMembersAsync(userParams);
+
+        Response.AddPaginationHeader(
+            users.CurrentPage,
+            users.PageSize,
+            users.TotalCount,
+            users.TotalPages);
 
          return Ok(users);
     }
