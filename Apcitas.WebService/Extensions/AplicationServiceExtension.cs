@@ -14,6 +14,7 @@ public static class AplicationServiceExtension
         services.AddScoped<iTokenService, TokenService>();
         services.AddScoped<IPhotoService, PhotoService>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<LogUserActivity>(); //ESTE ES UN Filtro
         services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
         services.AddDbContext<DataContext>(options =>
         {
