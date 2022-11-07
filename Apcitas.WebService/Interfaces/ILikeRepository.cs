@@ -1,5 +1,6 @@
 ﻿using Apcitas.WebService.DTOs;
 using Apcitas.WebService.Entities;
+using Apcitas.WebService.Helpers;
 
 namespace Apcitas.WebService.Interfaces;
 
@@ -7,6 +8,6 @@ namespace Apcitas.WebService.Interfaces;
 public interface ILikeRepository
 {
     Task<UserLike> GetUserLike(int sourceUserId, int likedUserId);
-    Task<IEnumerable<LikeDto>> GetUserLikes(string predicate, int userId);
+    Task<PagedList<LikeDto>> GetUserLikes(LikesParams likesParams);
     Task<AppUser> GetUserWithLikes(int userId);
 }

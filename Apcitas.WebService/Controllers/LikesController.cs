@@ -1,6 +1,7 @@
 ﻿using Apcitas.WebService.DTOs;
 using Apcitas.WebService.Entities;
 using Apcitas.WebService.Extensions;
+using Apcitas.WebService.Helpers;
 using Apcitas.WebService.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,9 +47,11 @@ public class LikesController : BaseApiController
     }
     
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<LikeDto>>> GetUserLikes(string predicate)
+    public async Task<ActionResult<IEnumerable<LikeDto>>> GetUserLikes([FromQuery] LikesParams likesParams)
     {
-        var users = await _likeRepository.GetUserLikes(predicate, User.GetUserId());
+        likesParams.UserId = User.GetUserId();
+        var users = await _likeRepository.GetUserLikes(likesParams);
+        Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
         return Ok(users);
     }
 
