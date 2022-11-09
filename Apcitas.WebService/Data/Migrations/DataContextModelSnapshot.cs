@@ -67,6 +67,48 @@ namespace Apcitas.WebService.Data.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Apcitas.WebService.Entities.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DateRead")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("MessageSent")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("RecipentId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("RecipentUsername")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("RecipientDelate")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("SenderDelate")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SenderUsername")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipentId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("Apcitas.WebService.Entities.Photo", b =>
                 {
                     b.Property<int>("Id")
@@ -107,6 +149,24 @@ namespace Apcitas.WebService.Data.Migrations
                     b.ToTable("Likes");
                 });
 
+            modelBuilder.Entity("Apcitas.WebService.Entities.Message", b =>
+                {
+                    b.HasOne("Apcitas.WebService.Entities.AppUser", "Recipent")
+                        .WithMany("MessagesReceived")
+                        .HasForeignKey("RecipentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Apcitas.WebService.Entities.AppUser", "Sender")
+                        .WithMany("MessagesSent")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Recipent");
+
+                    b.Navigation("Sender");
+                });
+
             modelBuilder.Entity("Apcitas.WebService.Entities.Photo", b =>
                 {
                     b.HasOne("Apcitas.WebService.Entities.AppUser", "AppUser")
@@ -142,6 +202,10 @@ namespace Apcitas.WebService.Data.Migrations
                     b.Navigation("LikedByUsers");
 
                     b.Navigation("LikedUsers");
+
+                    b.Navigation("MessagesReceived");
+
+                    b.Navigation("MessagesSent");
 
                     b.Navigation("Photos");
                 });
