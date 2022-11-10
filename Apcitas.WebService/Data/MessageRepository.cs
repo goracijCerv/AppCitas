@@ -2,36 +2,55 @@
 using Apcitas.WebService.Entities;
 using Apcitas.WebService.Helpers;
 using Apcitas.WebService.Interfaces;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 namespace Apcitas.WebService.Data;
 
 public class MessageRepository : IMessageRepository
 {
     private readonly DataContext _context;
+    private readonly Mapper _mapper;
 
-    public MessageRepository(DataContext context)
+    public MessageRepository(DataContext context, Mapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     public void AddMessage(Message message)
     {
-        throw new NotImplementedException();
+        _context.Messages.Add(message);
     }
 
     public void DelateMessage(Message message)
     {
-        throw new NotImplementedException();
+        _context.Messages.Remove(message);
     }
 
-    public Task<Message> GetMessage(int id)
+    public async Task<Message> GetMessage(int id)
     {
-        throw new NotImplementedException();
+        return await _context.Messages.FindAsync(id);
     }
 
-    public Task<PagedList<MessageDto>> GetMessagesForUser()
+    public async Task<PagedList<MessageDto>> GetMessagesForUser( MessageParams messageParams)
     {
-        throw new NotImplementedException();
+        var query = _context.Messages
+            .OrderByDescending(m => m.MessageSent)
+            .AsQueryable();
+
+        query = messageParams.Conteiner switch
+        {
+            "Inbox" => query.Where(u => u.Recipent.UserName.Equals(messageParams.UserName)),
+            "Outbox" => query.Where(u => u.Sender.UserName.Equals(messageParams.UserName)),
+            _ => query.Where(u => u.Recipent.UserName.Equals(messageParams.UserName) && u.DateRead == null)
+        };
+
+        var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
+
+        return await PagedList<MessageDto>
+            .CreateAsync(messages, messageParams.PageNumber, messageParams.PageSie);
+
     }
 
     public Task<IEnumerable<MessageDto>> GetMessageThread(int currentUserId, int recipientId)
@@ -39,8 +58,8 @@ public class MessageRepository : IMessageRepository
         throw new NotImplementedException();
     }
 
-    public Task<bool> SaveAllAsync()
+    public async Task<bool> SaveAllAsync()
     {
-        throw new NotImplementedException();
+        return await _context.SaveChangesAsync() > 0;
     }
 }

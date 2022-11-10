@@ -21,6 +21,14 @@ public class AutoMapperProfiles : Profile
         CreateMap<MemberUpdateDto, AppUser>();
 
         CreateMap<RegisterDto, AppUser>();
+
+        CreateMap<Message, MessageDto>()
+            .ForMember(
+            dest => dest.SenderPthoUrl,
+            opt => opt.MapFrom(src => src.Sender.Photos.FirstOrDefault(x => x.IsMain).Url))
+            .ForMember(
+            dest => dest.RecipentPthoUrl,
+            opt => opt.MapFrom(src => src.Recipent.Photos.FirstOrDefault(x => x.IsMain).Url));
     }
         
 }
