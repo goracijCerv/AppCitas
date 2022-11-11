@@ -62,4 +62,32 @@ public class MessageController : BaseApiController
 
         return messages;
     }
+
+    [HttpGet("thread/{username}")]
+    public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string username)
+    {
+        var curretnUsername = User.GetUsername();
+        return Ok(await _messageRepository.GetMessageThread(curretnUsername, username));
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DelateMessage(int id)
+    {
+        var username = User.GetUsername();
+        var message = await _messageRepository.GetMessage(id);
+
+        if (!message.Sender.UserName.Equals(username) && !message.Recipent.UserName.Equals(username))
+            return Unauthorized();
+
+        if (message.Sender.UserName.Equals(username)) message.SenderDelate = true;
+
+        if (message.Recipent.UserName.Equals(username)) message.RecipientDelate = true;
+
+        if (message.SenderDelate && message.RecipientDelate)
+            _messageRepository.DelateMessage(message);
+
+        if (await _messageRepository.SaveAllAsync()) return Ok();
+
+        return BadRequest("Failed to delete the message");
+    }
 }

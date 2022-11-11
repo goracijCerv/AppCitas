@@ -4,6 +4,7 @@ using Apcitas.WebService.Helpers;
 using Apcitas.WebService.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Apcitas.WebService.Data;
 
@@ -30,7 +31,10 @@ public class MessageRepository : IMessageRepository
 
     public async Task<Message> GetMessage(int id)
     {
-        return await _context.Messages.FindAsync(id);
+        return await _context.Messages
+            .Include(u => u.Sender)
+            .Include(u => u.Recipent)
+            .SingleOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<PagedList<MessageDto>> GetMessagesForUser( MessageParams messageParams)
@@ -41,9 +45,9 @@ public class MessageRepository : IMessageRepository
 
         query = messageParams.Container.ToLower() switch
         {
-            "inbox" => query.Where(u => u.Recipent.UserName.Equals(messageParams.UserName)),
-            "outbox" => query.Where(u => u.Sender.UserName.Equals(messageParams.UserName)),
-            _ => query.Where(u => u.Recipent.UserName.Equals(messageParams.UserName) && u.DateRead == null)
+            "inbox" => query.Where(u => u.Recipent.UserName.Equals(messageParams.UserName) && u.RecipientDelate == false),
+            "outbox" => query.Where(u => u.Sender.UserName.Equals(messageParams.UserName) && u.SenderDelate == false),
+            _ => query.Where(u => u.Recipent.UserName.Equals(messageParams.UserName) && u.DateRead == null && u.RecipientDelate == false)
         };
 
         var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
@@ -53,9 +57,31 @@ public class MessageRepository : IMessageRepository
 
     }
 
-    public Task<IEnumerable<MessageDto>> GetMessageThread(int currentUserId, int recipientId)
+    public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername)
     {
-        throw new NotImplementedException();
+        var messages = await _context.Messages
+            .Include(u => u.Sender).ThenInclude(p => p.Photos)
+            .Include(u => u.Recipent).ThenInclude(p => p.Photos)
+            .Where(m => m.Recipent.UserName.Equals(currentUsername) && m.RecipientDelate == false
+                    && m.Sender.UserName.Equals(recipientUsername)
+                    || m.Recipent.UserName.Equals(recipientUsername)
+                    && m.Sender.UserName.Equals(currentUsername) && m.SenderDelate == false)  
+            .OrderBy(m => m.MessageSent)
+            .ToListAsync();
+
+        var unreadMessages = messages
+            .Where(m => m.DateRead == null && m.Recipent.UserName.Equals(currentUsername)).ToList();
+
+        if (unreadMessages.Any())
+        {
+            foreach ( var message in unreadMessages)
+            {
+                message.DateRead = DateTime.Now;
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        return _mapper.Map<IEnumerable<MessageDto>>(messages);
     }
 
     public async Task<bool> SaveAllAsync()
