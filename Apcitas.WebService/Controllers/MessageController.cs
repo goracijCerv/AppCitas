@@ -4,10 +4,12 @@ using Apcitas.WebService.Extensions;
 using Apcitas.WebService.Helpers;
 using Apcitas.WebService.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Apcitas.WebService.Controllers;
 
+[Authorize]
 public class MessageController : BaseApiController
 {
     private readonly IUserRepository _userRepository;

@@ -10,9 +10,9 @@ namespace Apcitas.WebService.Data;
 public class MessageRepository : IMessageRepository
 {
     private readonly DataContext _context;
-    private readonly Mapper _mapper;
+    private readonly IMapper _mapper;
 
-    public MessageRepository(DataContext context, Mapper mapper)
+    public MessageRepository(DataContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
@@ -39,10 +39,10 @@ public class MessageRepository : IMessageRepository
             .OrderByDescending(m => m.MessageSent)
             .AsQueryable();
 
-        query = messageParams.Conteiner switch
+        query = messageParams.Container.ToLower() switch
         {
-            "Inbox" => query.Where(u => u.Recipent.UserName.Equals(messageParams.UserName)),
-            "Outbox" => query.Where(u => u.Sender.UserName.Equals(messageParams.UserName)),
+            "inbox" => query.Where(u => u.Recipent.UserName.Equals(messageParams.UserName)),
+            "outbox" => query.Where(u => u.Sender.UserName.Equals(messageParams.UserName)),
             _ => query.Where(u => u.Recipent.UserName.Equals(messageParams.UserName) && u.DateRead == null)
         };
 

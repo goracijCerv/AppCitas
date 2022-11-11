@@ -24,10 +24,10 @@ public class AutoMapperProfiles : Profile
 
         CreateMap<Message, MessageDto>()
             .ForMember(
-            dest => dest.SenderPthoUrl,
+            dest => dest.SenderPhotoUrl,
             opt => opt.MapFrom(src => src.Sender.Photos.FirstOrDefault(x => x.IsMain).Url))
             .ForMember(
-            dest => dest.RecipentPthoUrl,
+            dest => dest.RecipentPothoUrl,
             opt => opt.MapFrom(src => src.Recipent.Photos.FirstOrDefault(x => x.IsMain).Url));
     }
         
