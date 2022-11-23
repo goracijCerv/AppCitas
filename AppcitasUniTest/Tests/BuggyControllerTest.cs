@@ -48,7 +48,7 @@ public class BuggyControllerTest
         });
 
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userDto.Token);
-
+        //Todo esto se puede  considerar como el loging (lo anterior)
         requestUrl = $"{apiRoute}/auth";
 
         //Act
