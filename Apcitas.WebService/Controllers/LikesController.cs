@@ -45,7 +45,7 @@ public class LikesController : BaseApiController
 
         return BadRequest("Faild yo like user");
     }
-    
+
     [HttpGet]
     public async Task<ActionResult<IEnumerable<LikeDto>>> GetUserLikes([FromQuery] LikesParams likesParams)
     {

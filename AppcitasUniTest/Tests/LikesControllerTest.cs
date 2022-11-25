@@ -1,19 +1,14 @@
 ﻿using Apcitas.WebService.DTOs;
 using AppcitasUniTest.Helpers;
-using CloudinaryDotNet.Actions;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace AppcitasUniTest.Tests
 {
-    public  class LikesControllerTest
+    public class LikesControllerTest
     {
         private string apiRoute = "api/likes";
         private readonly HttpClient _client;
@@ -29,26 +24,44 @@ namespace AppcitasUniTest.Tests
         }
 
         [Theory]
-        [InlineData("NotFound","PedritoSola")]
+        [InlineData("NotFound", "PedritoSola")]
         public async Task AddLike_ShoulBeNotFound(string statusCode, string userliked)
         {
 
             //Arrange
 
-            _client.DefaultRequestHeaders.Authorization=await GetAuthoritation();
+            _client.DefaultRequestHeaders.Authorization = await GetAuthoritation();
             requestUrl = $"{apiRoute}/{userliked}";
             httpContent = null;
             //Act
-            httpResponse = await _client.PostAsync(requestUrl,httpContent);
+            httpResponse = await _client.PostAsync(requestUrl, httpContent);
 
             //Assert
             Assert.Equal(Enum.Parse<HttpStatusCode>(statusCode, true), httpResponse.StatusCode);
             Assert.Equal(statusCode, httpResponse.StatusCode.ToString());
         }
+        
+        // cuando se le da like a un usuario 
+        [Theory]
+        [InlineData("OK")]
+        public async Task AddLike_ShouldBe1(string statusCode) //Like_ShouldBeOk se cambio de nombre por parece que la ejecucion es por orden alfabetico
+        {
+            //Arrange
+            //string userliked = await GetNewUserToLike();
+            _client.DefaultRequestHeaders.Authorization = await GetAuthoritation();
+            requestUrl = $"{apiRoute}/todd";
+            httpContent = null;
+            //Act
+            httpResponse = await _client.PostAsync(requestUrl, httpContent);
+
+            //Assert
+            Assert.Equal(Enum.Parse<HttpStatusCode>(statusCode, true), httpResponse.StatusCode);
+            Assert.Equal(statusCode, httpResponse.StatusCode.ToString());
+        }
+
         //Cuando se de like a uno mismo  y atra persona que ya tenia like
         [Theory]
-        [InlineData("BadRequest","lisa")]
-        [InlineData("BadRequest","todd")]
+        [InlineData("BadRequest", "lisa")]
         public async Task AddLike_ShouldBeBadRequest(string statusCode, string userliked)
         {
             //Arrange
@@ -62,28 +75,14 @@ namespace AppcitasUniTest.Tests
             Assert.Equal(Enum.Parse<HttpStatusCode>(statusCode, true), httpResponse.StatusCode);
             Assert.Equal(statusCode, httpResponse.StatusCode.ToString());
         }
-        // cuando se le da like a un usuario 
-        [Theory]
-        [InlineData("OK")]
-        public async Task AddLike_ShouldBeBaOk(string statusCode)
-        {
-            //Arrange
-            string userliked = await GetNewUserToLike();
-            _client.DefaultRequestHeaders.Authorization = await GetAuthoritation();
-            requestUrl = $"{apiRoute}/{userliked}";
-            httpContent = null;
-            //Act
-            httpResponse = await _client.PostAsync(requestUrl, httpContent);
 
-            //Assert
-            Assert.Equal(Enum.Parse<HttpStatusCode>(statusCode, true), httpResponse.StatusCode);
-            Assert.Equal(statusCode, httpResponse.StatusCode.ToString());
-        }
+       
         //cuando es liked y cuando es likedby
         [Theory]
-        [InlineData("OK","liked")]
-        [InlineData("OK","likedby")]
-        public async Task GetLikedUsers_ShouldBeOk(string statusCode, string predicateValue) {
+        [InlineData("OK", "liked")]
+        [InlineData("OK", "likedby")]
+        public async Task GetLikedUsers_ShouldBeOk(string statusCode, string predicateValue)
+        {
             //Arrange
             _client.DefaultRequestHeaders.Authorization = await GetAuthoritation();
             requestUrl = $"{apiRoute}?predicate={predicateValue}";
@@ -94,15 +93,17 @@ namespace AppcitasUniTest.Tests
             Assert.Equal(Enum.Parse<HttpStatusCode>(statusCode, true), httpResponse.StatusCode);
             Assert.Equal(statusCode, httpResponse.StatusCode.ToString());
         }
-        
+
+
+
         #region Privated methods
 
-        private async  Task<string> GetNewUserToLike()
+        private async Task<string> GetNewUserToLike()
         {
             requestUrl = "api/account/register";
             string finalName = "arturo" + Guid.NewGuid().ToString();
             DateTime date = Convert.ToDateTime("2000 - 01 - 01");
-            var registerDto = new RegisterDto   
+            var registerDto = new RegisterDto
             {
                 Username = finalName,
                 KnowAs = "Arturo",
@@ -116,11 +117,11 @@ namespace AppcitasUniTest.Tests
             registerObject = GetRegisterObject(registerDto);
             httpContent = GetHttpContent(registerObject);
 
-            
+
             httpResponse = await _client.PostAsync(requestUrl, httpContent);
             return finalName;
         }
-        
+
         private async Task<AuthenticationHeaderValue> GetAuthoritation()
         {
             requestUrl = "api/account/login";

@@ -2,7 +2,7 @@
 
 public static class DateTimeExtensions
 {
-    public static int  CalculeteAge(this DateTime dob) 
+    public static int CalculeteAge(this DateTime dob)
     {
         var today = DateTime.Today;
         var age = today.Year - dob.Year;

@@ -1,6 +1,4 @@
-﻿using Apcitas.WebService.Entities;
-
-namespace Apcitas.WebService.DTOs;
+﻿namespace Apcitas.WebService.DTOs;
 
 public class MemberDto
 {
@@ -9,7 +7,7 @@ public class MemberDto
     public int Age { get; set; }
     public string PhotoUrl { get; set; }
     public string KnowAs { get; set; }
-    public DateTime Created { get; set; } 
+    public DateTime Created { get; set; }
     public DateTime LastActive { get; set; }
     public string Gender { get; set; }
     public string Introduction { get; set; }

@@ -10,7 +10,7 @@ public class PhotoService : IPhotoService
 {
     private readonly Cloudinary _cloudinary;
 
-    public PhotoService( IOptions<CloudinarySettings> config)
+    public PhotoService(IOptions<CloudinarySettings> config)
     {
         var acc = new Account
         (
@@ -25,7 +25,7 @@ public class PhotoService : IPhotoService
     {
         var uploadRes = new ImageUploadResult();
 
-        if(photofile.Length > 0)
+        if (photofile.Length > 0)
         {
             using var stream = photofile.OpenReadStream();
             var uploadParm = new ImageUploadParams

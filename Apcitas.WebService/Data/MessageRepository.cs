@@ -37,7 +37,7 @@ public class MessageRepository : IMessageRepository
             .SingleOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task<PagedList<MessageDto>> GetMessagesForUser( MessageParams messageParams)
+    public async Task<PagedList<MessageDto>> GetMessagesForUser(MessageParams messageParams)
     {
         var query = _context.Messages
             .OrderByDescending(m => m.MessageSent)
@@ -65,7 +65,7 @@ public class MessageRepository : IMessageRepository
             .Where(m => m.Recipent.UserName.Equals(currentUsername) && m.RecipientDelate == false
                     && m.Sender.UserName.Equals(recipientUsername)
                     || m.Recipent.UserName.Equals(recipientUsername)
-                    && m.Sender.UserName.Equals(currentUsername) && m.SenderDelate == false)  
+                    && m.Sender.UserName.Equals(currentUsername) && m.SenderDelate == false)
             .OrderBy(m => m.MessageSent)
             .ToListAsync();
 
@@ -74,7 +74,7 @@ public class MessageRepository : IMessageRepository
 
         if (unreadMessages.Any())
         {
-            foreach ( var message in unreadMessages)
+            foreach (var message in unreadMessages)
             {
                 message.DateRead = DateTime.Now;
             }

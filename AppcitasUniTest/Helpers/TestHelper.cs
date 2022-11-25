@@ -1,7 +1,4 @@
-﻿using System;
-using System.Net;
-using Apcitas;
-using Apcitas.WebService;
+﻿using Apcitas;
 
 namespace AppcitasUniTest.Helpers;
 
@@ -19,5 +16,5 @@ public sealed class TestHelper
     private TestHelper()
     {
         Client = new APIWebApplicationFactory<Startup>().CreateDefaultClient();
-    } 
+    }
 }

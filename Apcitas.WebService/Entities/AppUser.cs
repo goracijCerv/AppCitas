@@ -1,6 +1,4 @@
-﻿using Apcitas.WebService.Extensions;
-
-namespace Apcitas.WebService.Entities;
+﻿namespace Apcitas.WebService.Entities;
 
 public class AppUser
 {
@@ -12,7 +10,7 @@ public class AppUser
     public DateTime DateOfBirth { get; set; }
     public string KnowAs { get; set; }
     public DateTime Created { get; set; } = DateTime.Now;
-    public DateTime LastActive { get; set; }= DateTime.Now;
+    public DateTime LastActive { get; set; } = DateTime.Now;
     public string Gender { get; set; }
     public string Introduction { get; set; }
     public string Lokingfor { get; set; }
@@ -28,7 +26,7 @@ public class AppUser
 
     //public int GetAge()
     //{
-      //  return DateOfBirth.CalculeteAge();
+    //  return DateOfBirth.CalculeteAge();
     //}
 
     //ESta es la froma en  la que se realiza en c#

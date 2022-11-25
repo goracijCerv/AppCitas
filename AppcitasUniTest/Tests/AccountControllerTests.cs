@@ -1,16 +1,12 @@
 ﻿using Apcitas.WebService.DTOs;
 using AppcitasUniTest.Helpers;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace AppcitasUniTest.Tests
 {
-    public  class AccountControllerTests
+    public class AccountControllerTests
     {
         private string apiRoute = "api/account";
         private readonly HttpClient _client;

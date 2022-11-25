@@ -9,12 +9,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
-using System.Threading;
-using Xunit.Sdk;
 
 namespace AppcitasUniTest;
 
-public  class APIWebApplicationFactory<IStarup> : WebApplicationFactory<Startup>
+public class APIWebApplicationFactory<IStarup> : WebApplicationFactory<Startup>
 {
     public IConfiguration? Configuration { get; set; }
 
@@ -49,7 +47,7 @@ public  class APIWebApplicationFactory<IStarup> : WebApplicationFactory<Startup>
         {
             var sp = services.BuildServiceProvider();
 
-            using (var scope  = sp.CreateScope())
+            using (var scope = sp.CreateScope())
             {
                 var context = sp.GetRequiredService<DataContext>();
 
@@ -58,7 +56,7 @@ public  class APIWebApplicationFactory<IStarup> : WebApplicationFactory<Startup>
                     await context.Database.MigrateAsync();
                     await Seed.SeedUsers(context);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     var logger = sp.GetRequiredService<ILogger<Program>>();
                     logger.LogError(e, "An error ocurred during migration/seeding");

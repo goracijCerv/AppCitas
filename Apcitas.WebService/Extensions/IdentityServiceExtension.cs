@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Apcitas.WebService.Extensions;
 
-public static  class IdentityServiceExtension
+public static class IdentityServiceExtension
 {
     public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration config)
     {

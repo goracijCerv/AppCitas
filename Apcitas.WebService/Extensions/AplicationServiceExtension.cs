@@ -24,7 +24,7 @@ public static class AplicationServiceExtension
                 config.GetConnectionString("DefaultConnection")
                 );
         });
-        
+
         return services;
-    } 
+    }
 }

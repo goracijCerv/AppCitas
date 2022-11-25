@@ -1,10 +1,7 @@
 ﻿using Apcitas.WebService.Entities;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Apcitas.WebService.Data;
 
@@ -16,7 +13,7 @@ public class Seed
 
         var usersDat = await System.IO.File.ReadAllTextAsync("Data/UsersSeedData.json");
         var users = System.Text.Json.JsonSerializer.Deserialize<List<AppUser>>(usersDat);
-        foreach(var user in users)
+        foreach (var user in users)
         {
             using var hamc = new HMACSHA512();
             user.UserName = user.UserName.ToLower();

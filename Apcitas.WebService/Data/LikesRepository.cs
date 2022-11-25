@@ -41,7 +41,7 @@ public class LikesRepository : ILikeRepository
             users = likes.Select(like => like.SourceUser);
         }
 
-        var likedUsers=  users.Select(user => new LikeDto
+        var likedUsers = users.Select(user => new LikeDto
         {
             Username = user.UserName,
             KnownAs = user.KnowAs,

@@ -21,12 +21,12 @@ public class UserRepository : IUserRepository
     public async Task<MemberDto> GetMemberAsync(string usaerName)
     {
         return await _context.Users.Where
-            (x=> x.UserName == usaerName )
+            (x => x.UserName == usaerName)
             .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
             .SingleOrDefaultAsync();
     }
 
-    public  async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
+    public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
     {
         var query = _context.Users.AsQueryable();
 
@@ -41,17 +41,17 @@ public class UserRepository : IUserRepository
         query = userParams.OrderBy switch
         {
             "created" => query.OrderByDescending(u => u.Created),
-            _=> query.OrderByDescending(u => u.LastActive)
+            _ => query.OrderByDescending(u => u.LastActive)
         };
 
         return await PagedList<MemberDto>
             .CreateAsync(
             query
                 .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                .AsNoTracking(), 
-            userParams.PageNumber, 
+                .AsNoTracking(),
+            userParams.PageNumber,
             userParams.PageSie);
-            
+
     }
 
     public async Task<AppUser> GetUserByIdAsync(int id)
@@ -81,5 +81,5 @@ public class UserRepository : IUserRepository
         _context.Entry(user).State = EntityState.Modified;
     }
 
-   
+
 }

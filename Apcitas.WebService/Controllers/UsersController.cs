@@ -22,10 +22,10 @@ public class UsersController : BaseApiController
     }
     //Get api/users
     [HttpGet]
-    
+
     public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
     {
-        var user =  await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+        var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
         userParams.CurrentUsername = user.UserName;
 
@@ -40,11 +40,11 @@ public class UsersController : BaseApiController
             users.TotalCount,
             users.TotalPages);
 
-         return Ok(users);
+        return Ok(users);
     }
     //Get api/usuarios/id 
-    [HttpGet("{username}", Name ="GetUser")]
-   
+    [HttpGet("{username}", Name = "GetUser")]
+
     public async Task<ActionResult<MemberDto>> GetUserByUserName(string username)
     {
         return await _userRepository.GetMemberAsync(username);
@@ -58,7 +58,7 @@ public class UsersController : BaseApiController
 
         _userRepository.Update(user);
         if (await _userRepository.SaveAllAsync()) return NoContent();
-        
+
         return BadRequest("Fail to update the user");
     }
 
@@ -74,7 +74,7 @@ public class UsersController : BaseApiController
         var photo = new Photo
         {
             Url = result.SecureUrl.AbsoluteUri,
-            PublicId= result.PublicId
+            PublicId = result.PublicId
         };
 
         if (user.Photos.Count == 0) photo.IsMain = true;
@@ -84,7 +84,7 @@ public class UsersController : BaseApiController
         {
             return CreatedAtRoute(
                  "GetUser",
-                 new {username = user.UserName},
+                 new { username = user.UserName },
                 _mapper.Map<PhotoDto>(photo));
         }
         return BadRequest("problem with adding a photo");
@@ -94,11 +94,11 @@ public class UsersController : BaseApiController
     public async Task<ActionResult> SetMainPhoto(int photoId)
     {
         var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
-        
+
         var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
 
         if (photo == null) return NotFound("This photo not exist");
-        
+
         if (photo.IsMain) return BadRequest("This is already you main photo");
 
         var currentMainPhoto = user.Photos.FirstOrDefault(x => x.IsMain);
@@ -123,7 +123,7 @@ public class UsersController : BaseApiController
 
         if (photo.IsMain) return BadRequest("You can´t delete your main photo");
 
-        if(photo.PublicId != null)
+        if (photo.PublicId != null)
         {
             var result = await _photoService.DeletePhotoAsync(photo.PublicId);
 

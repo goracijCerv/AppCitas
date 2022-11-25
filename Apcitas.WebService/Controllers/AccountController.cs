@@ -2,7 +2,6 @@
 using Apcitas.WebService.DTOs;
 using Apcitas.WebService.Entities;
 using Apcitas.WebService.Interfaces;
-using Apcitas.WebService.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +33,7 @@ public class AccountController : BaseApiController
 
         var user = _mapper.Map<AppUser>(registerDto);
         user.UserName = registerDto.Username.ToLower();
-        user.PasswordHash= hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
+        user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
         user.PasswordHash = hmac.Key;
 
         _context.Users.Add(user);
@@ -60,7 +59,7 @@ public class AccountController : BaseApiController
         using var hac = new HMACSHA512(user.PasswordSalt);
 
         var computeHash = hac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
-        for(int i=0; i<computeHash.Length; i++)
+        for (int i = 0; i < computeHash.Length; i++)
         {
             if (computeHash[i] != user.PasswordHash[i])
                 return Unauthorized("Invalid username or password");

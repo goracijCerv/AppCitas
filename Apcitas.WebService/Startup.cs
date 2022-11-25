@@ -1,13 +1,6 @@
-using Apcitas.WebService.Data;
 using Apcitas.WebService.Extensions;
-using Apcitas.WebService.Interfaces;
 using Apcitas.WebService.Mideleware;
-using Apcitas.WebService.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
 
 namespace Apcitas;
 
@@ -24,7 +17,7 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        
+
         services.AddAplicationServices(_config);
         services.AddControllers();
         services.AddCors();
